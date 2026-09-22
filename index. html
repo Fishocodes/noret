@@ -1,1 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NORET — Mineral & Ores Technology Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --espresso: #2B2420;
+    --espresso-2: #352C26;
+    --bronze: #8C6239;
+    --gold: #C9A227;
+    --paper: #F7F4EF;
+    --paper-2: #EFEADF;
+    --ink: #2B2420;
+    --ink-soft: #6B6459;
+    --line: #E1D9C8;
+    --on-dark: #F3EEE4;
+    --on-dark-soft: #B9AC98;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  * { box-sizing: inherit; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #211B17;
+      --paper-2: #2A231D;
+      --ink: #F3EEE4;
+      --ink-soft: #B9AC98;
+      --line: #3C332B;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #211B17;
+    --paper-2: #2A231D;
+    --ink: #F3EEE4;
+    --ink-soft: #B9AC98;
+    --line: #3C332B;
+  }
 
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 {
+    font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
+    font-weight: 500;
+    line-height: 1.15;
+    margin: 0;
+    color: inherit;
+  }
+  p { margin: 0; }
+  a { color: inherit; }
+  img, svg { max-width: 100%; display: block; }
+
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+  section { position: relative; }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    background: var(--espresso);
+    color: var(--on-dark);
+    padding: 84px 0 76px;
+    overflow: hidden;
+    position: relative;
+  }
+  .hero .wrap { position: relative; z-index: 2; }
+  .contours {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    opacity: 0.55;
+  }
+  .mark {
+    font-family: 'Fraunces', serif;
+    font-size: 15px;
+    letter-spacing: 0.14em;
+    color: var(--gold);
+    margin-bottom: 34px;
+  }
+  .hero h1 {
+    font-size: clamp(2.1rem, 6vw, 3.1rem);
+    max-width: 12ch;
+    letter-spacing: -0.01em;
+  }
+  .hero .sub {
+    margin-top: 22px;
+    max-width: 46ch;
+    font-size: 1.05rem;
+    color: var(--on-dark-soft);
+  }
+  .cta-row { margin-top: 40px; display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn {
+    display: inline-block;
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 14px 26px;
+    border-radius: 3px;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+  .btn:active { transform: scale(0.98); }
+  .btn-primary { background: var(--gold); color: #241D16; }
+  .btn-primary:hover { opacity: 0.92; }
+  .btn-ghost {
+    background: transparent;
+    color: var(--on-dark);
+    border: 1px solid rgba(243,238,228,0.3);
+  }
+  .btn-ghost:hover { border-color: rgba(243,238,228,0.6); }
+
+  /* ---------- GENERIC SECTION ---------- */
+  .section { padding: 64px 0; }
+  .kicker {
+    font-size: 0.82rem;
+    color: var(--bronze);
+    margin-bottom: 14px;
+  }
+  .section h2 {
+    font-size: clamp(1.5rem, 4vw, 1.9rem);
+    max-width: 22ch;
+  }
+  .section .lead {
+    margin-top: 18px;
+    max-width: 58ch;
+    color: var(--ink-soft);
+    font-size: 1.02rem;
+  }
+
+  /* ---------- PROBLEM LIST ---------- */
+  .seam-list { margin-top: 36px; }
+  .seam {
+    padding: 20px 0;
+    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .seam:last-child { border-bottom: 1px solid var(--line); }
+  .seam h3 { font-size: 1.05rem; font-weight: 500; }
+  .seam p { color: var(--ink-soft); font-size: 0.95rem; max-width: 58ch; }
+
+  /* ---------- STRATA (3 phases) ---------- */
+  .strata { margin-top: 8px; }
+  .stratum {
+    padding: 34px 0;
+    border-top: 1px solid var(--line);
+  }
+  .stratum:last-child { border-bottom: 1px solid var(--line); }
+  .stratum-head {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+  }
+  .stratum-num {
+    font-family: 'Fraunces', serif;
+    font-size: 0.95rem;
+    color: var(--gold);
+    flex: none;
+    width: 2.4em;
+  }
+  .stratum h3 { font-size: 1.15rem; font-weight: 500; }
+  .stratum-tag {
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    margin-top: 2px;
+  }
+  .stratum p.desc {
+    margin-top: 12px;
+    margin-left: calc(2.4em + 16px);
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+    max-width: 52ch;
+  }
+
+  /* ---------- WHY NOW ---------- */
+  .facts { margin-top: 30px; display: grid; gap: 22px; }
+  .fact { display: grid; grid-template-columns: auto 1fr; gap: 16px; }
+  .fact .n {
+    font-family: 'Fraunces', serif;
+    color: var(--bronze);
+    font-size: 1.3rem;
+    line-height: 1.3;
+  }
+  .fact p { color: var(--ink-soft); font-size: 0.95rem; }
+  .fact strong { color: var(--ink); font-weight: 600; }
+
+  /* ---------- TEAM ---------- */
+  .team-list { margin-top: 30px; }
+  .member {
+    padding: 22px 0;
+    border-top: 1px solid var(--line);
+  }
+  .member:last-child { border-bottom: 1px solid var(--line); }
+  .member-name { font-size: 1.05rem; font-weight: 600; }
+  .member-role { font-size: 0.86rem; color: var(--bronze); margin-top: 3px; }
+  .member-desc { font-size: 0.92rem; color: var(--ink-soft); margin-top: 8px; max-width: 54ch; }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    padding: 48px 0 calc(48px + env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid var(--line);
+  }
+  footer .foot-name {
+    font-family: 'Fraunces', serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.04em;
+  }
+  footer .foot-note {
+    margin-top: 10px;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    max-width: 46ch;
+  }
+  footer .foot-links { margin-top: 22px; display: flex; gap: 22px; flex-wrap: wrap; }
+  footer .foot-links a {
+    font-size: 0.88rem;
+    text-decoration: none;
+    color: var(--bronze);
+    border-bottom: 1px solid transparent;
+  }
+  footer .foot-links a:hover { border-bottom-color: var(--bronze); }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <svg class="contours" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" stroke="#C9A227" stroke-width="1">
+      <path d="M -50 420 C 150 380, 250 460, 450 400 S 700 340, 860 400" opacity="0.5"/>
+      <path d="M -50 460 C 180 410, 260 490, 470 440 S 720 380, 860 440" opacity="0.35"/>
+      <path d="M -50 380 C 140 330, 300 410, 500 350 S 730 300, 860 350" opacity="0.25"/>
+      <path d="M -50 340 C 160 300, 320 360, 520 310 S 740 270, 860 310" opacity="0.18"/>
+    </g>
+  </svg>
+  <div class="wrap">
+    <div class="mark">NORET</div>
+    <h1>Nigeria's mineral wealth, made lawful, bankable and export-ready.</h1>
+    <p class="sub">A compliance-led platform for lithium and solid minerals — built to formalize artisanal supply, then scale into trading and processing, in partnership with operators, buyers and communities across the value chain.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="mailto:partners@noret.africa?subject=NORET%20Partnership%20Inquiry">Partner with us</a>
+      <a class="btn btn-ghost" href="#solution">See how it works</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="kicker">The problem</div>
+    <h2>Value leaks out of the supply chain before it ever reaches export.</h2>
+    <p class="lead">Nigeria has significant lithium and solid-mineral reserves, but the sector remains fragmented and under-processed — leaving most of the value on the table.</p>
+    <div class="seam-list">
+      <div class="seam">
+        <h3>Compliance is fragmented</h3>
+        <p>Licensing, title renewal and export documentation are complex, leaving many operators informal and unbankable.</p>
+      </div>
+      <div class="seam">
+        <h3>Value is lost at the source</h3>
+        <p>Minerals leave the country largely unprocessed, forfeiting the margin that beneficiation would create.</p>
+      </div>
+      <div class="seam">
+        <h3>Operators lack support</h3>
+        <p>Artisanal and small-scale miners lack technical validation, financing and structured buyer access.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="solution" style="background:var(--paper-2);">
+  <div class="wrap">
+    <div class="kicker">The solution</div>
+    <h2>A platform that goes deeper into the value chain over time.</h2>
+    <p class="lead">Three phases, sequenced so revenue starts early and capital intensity rises only once demand and regulatory footing are proven.</p>
+    <div class="strata">
+      <div class="stratum">
+        <div class="stratum-head">
+          <span class="stratum-num">01</span>
+          <div>
+            <h3>Compliance-led services</h3>
+            <div class="stratum-tag">Training, licensing, geological consultancy</div>
+          </div>
+        </div>
+        <p class="desc">Mining training and certification, licensing support, geological consultancy, and export &amp; trade documentation for operators seeking to formalize.</p>
+      </div>
+      <div class="stratum">
+        <div class="stratum-head">
+          <span class="stratum-num">02</span>
+          <div>
+            <h3>Mineral operations</h3>
+            <div class="stratum-tag">Mining, aggregation, trade, export</div>
+          </div>
+        </div>
+        <p class="desc">Lithium and solid-mineral mining, aggregation, bulk trading, assay and quality control, and export execution.</p>
+      </div>
+      <div class="stratum">
+        <div class="stratum-head">
+          <span class="stratum-num">03</span>
+          <div>
+            <h3>Value-added infrastructure</h3>
+            <div class="stratum-tag">Processing, beneficiation, financing</div>
+          </div>
+        </div>
+        <p class="desc">Lithium processing and beneficiation, equipment and security services, and structured financing for licensed operators.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="kicker">Why now</div>
+    <h2>Active regulatory reform makes compliance the moat.</h2>
+    <div class="facts">
+      <div class="fact">
+        <span class="n">01</span>
+        <p><strong>Mineral titles are closely administered.</strong> The Mining Cadastre Office actively enforces title compliance and annual service fees.</p>
+      </div>
+      <div class="fact">
+        <span class="n">02</span>
+        <p><strong>Export requires full documentation.</strong> Incorporation, tax clearance, NEPC registration, proof of source and royalty payment are now enforced.</p>
+      </div>
+      <div class="fact">
+        <span class="n">03</span>
+        <p><strong>Policy favors local beneficiation.</strong> The Nigerian Mineral Value Chain Regulations 2024 restrict raw mineral export without approval.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="kicker">Leadership</div>
+    <h2>Regulatory access, technical depth, execution.</h2>
+    <div class="team-list">
+      <div class="member">
+        <div class="member-name">Engr. Sunday Onah Okhuoya</div>
+        <div class="member-role">Managing Director</div>
+        <p class="member-desc">40+ years as an engineer; retired Deputy Director, Federal Ministry of Mines &amp; Solid Minerals.</p>
+      </div>
+      <div class="member">
+        <div class="member-name">Folorunsho Morakinyo Dare</div>
+        <div class="member-role">Chief Operating Officer</div>
+        <p class="member-desc">20+ years in business operations, commercial development and execution.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--paper-2);">
+  <div class="wrap">
+    <div class="kicker">Work with us</div>
+    <h2>Built for operators, buyers and communities across the value chain.</h2>
+    <p class="lead">Whether you're a landowner, an artisanal mining group seeking formalization, an industrial buyer, or a processor looking for a compliant supply partner, NORET is built to work alongside you.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="mailto:partners@noret.africa?subject=NORET%20Partnership%20Inquiry">Start a conversation</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-name">NORET</div>
+    <p class="foot-note">Mineral &amp; ores technology platform. If you're a mining operator, buyer, off-taker or prospective partner, we'd like to hear from you.</p>
+    <div class="foot-links">
+      <a href="mailto:partners@noret.africa">partners@noret.africa</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
